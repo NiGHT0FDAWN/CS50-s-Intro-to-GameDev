@@ -21,6 +21,9 @@ end
 function Ball:update(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+    if self.y < 1 or self.y > VIRTUAL_HEIGHT then
+        self.dy = -self.dy
+    end
 end
 
 function Ball:render()
