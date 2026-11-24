@@ -32,27 +32,54 @@ function love.load()
 end
 
 function love.update(dt)
-    if love.keyboard.isDown('w')then
-        p1.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('s') then
-        p1.dy = PADDLE_SPEED
-    else
-        p1.dy = 0
-    end
-    if love.keyboard.isDown('up') then
-        p2.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('down') then
-        p2.dy = PADDLE_SPEED
-    else
-        p2.dy = 0
-    end
-
     if game_state == 'play' then
-        ball:update(dt)
-    end
+        if ball:collides(p1) then
+            ball.dx = -ball.dx * 1.03
+            ball.x = p1.x + 5
+            if ball.dy < 0 then
+                ball.dy = -math.random(10, 150)
+            else
+                ball.dy = math.random(10, 150)
+            end
+        end
+        if ball:collides(p2) then
+            ball.dx = -ball.dx * 1.03
+            ball.x = p2.x -4
+            if ball.dy > VIRTUAL_WIDTH then
+                ball.dy = -math.random(10, 150)
+            else
+                ball.dy = math.random(10, 150)
+            end
+        end
+        if ball.y <= 0 then
+            ball.dy = -ball.dy
+            ball.y = 0
+        elseif ball.y >= VIRTUAL_HEIGHT then
+            ball.dy = -ball.dy
+            ball.y = VIRTUAL_HEIGHT - 4
+        end
+        if love.keyboard.isDown('w')then
+            p1.dy = -PADDLE_SPEED
+        elseif love.keyboard.isDown('s') then
+            p1.dy = PADDLE_SPEED
+        else
+            p1.dy = 0
+        end
+        if love.keyboard.isDown('up') then
+            p2.dy = -PADDLE_SPEED
+        elseif love.keyboard.isDown('down') then
+            p2.dy = PADDLE_SPEED
+        else
+            p2.dy = 0
+        end
 
-    p1:update(dt)
-    p2:update(dt)
+        if game_state == 'play' then
+            ball:update(dt)
+        end
+
+        p1:update(dt)
+        p2:update(dt)
+    end
 end
 
 function love.keypressed(key)

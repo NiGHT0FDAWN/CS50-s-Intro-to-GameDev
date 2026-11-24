@@ -7,9 +7,6 @@ function Paddle:init(x, y, width, height)
     self.width = width
     self.height = height
     self.dy = 0
-
-    self.dx = math.random(2) == 1 and 100 or -100
-    self.dy = math.random(-90, 90)
 end
 
 function Paddle:update(dt)
